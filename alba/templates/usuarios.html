@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-5">
+        <h1>{{ titulo }}</h1>
+        <hr>
+        {% if lista_usuarios|length >= 1 %}
+            {% for usuario in lista_usuarios %}
+                {% include 'components/card_perfil.html' %}
+            {% endfor %}
+        {% else %}
+            <p class="aviso-sem-usuarios">Nenhum usuário encontrado</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    {{ post.titulo }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-4">
+        {% include 'components/post.html' %}
+        {% for comentario in post.exibir_comentarios() %}
+            {% include 'components/comentario.html' %}
+        {% endfor %}
+    </div>
+{% endblock %}

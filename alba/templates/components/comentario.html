@@ -1,0 +1,57 @@
+<div class="container mt-3">
+    <div class="row gap-1 border mt-4 p-3 bloco-post">
+        <div class="row">
+            <div class="d-flex image pe-2 align-items-center gap-2">
+                <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(comentario.autor.foto_perfil)) }}" class="rounded-circle" width="30" >
+                <strong>{{ comentario.autor.nome }}</strong>
+                <a class="link-primary" href="{{ url_for('perfil', username=comentario.autor.username) }}">
+                    <p class="mb-1">@{{ comentario.autor.username }}</p>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <p class="font-weight-light text-secondary">
+                Respondeu em {{ comentario.data_comentario.strftime('%d/%m/%Y') }}:
+            </p>
+            {% if comentario.editado %}
+                <p class="font-weight-light text-secondary mb-0">[Editado]</p>
+            {% endif %}
+            {% if current_user == comentario.autor %}
+                <p class="mb-0">{{ comentario.corpo }}</p>
+            {% else %}
+                <p>{{ comentario.corpo }}</p>
+            {% endif %}
+        </div>
+        {% if current_user == comentario.autor %}
+            <div class="acoes">
+                <div>
+                    <a class="link-primary" href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}"><i class="fa-solid fa-pencil"></i></a>
+                </div>
+                <div>
+                    <a class="link-danger" href="#" data-bs-toggle="modal" data-bs-target="#excluirComentario"><i class="fa-solid fa-trash"></i></a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% if current_user == comentario.autor %}
+    <div class="modal fade" id="excluirComentario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Excluir comentário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Você quer mesmo excluir esse comentário? Esta ação não pode ser desfeita
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="POST" action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

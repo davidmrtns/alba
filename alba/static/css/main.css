@@ -1,0 +1,190 @@
+body{
+    background: #121212;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h3, hr, a, p.aviso-sem-usuarios{
+    color: #dadada;
+}
+
+nav.navbar{
+    background: #1f2021;
+}
+
+a.nav-link, a.navbar-brand{
+    color: #dadada !important;
+}
+
+a.nav-link:hover, a.navbar-brand:hover{
+    color: #a69d8e !important;
+    transition: 0.4s;
+}
+
+form{
+    background: #212325;
+    color: #dadada;
+}
+
+div.form-group{
+    padding-top: 8px;
+}
+
+div.acoes{
+    text-align: right;
+    font-size: 20px;
+    display: flex;
+    gap: 18px;
+    justify-content: flex-end;
+}
+
+div.acoes div{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+}
+
+div.acoes div p{
+    margin-bottom: 0;
+}
+
+div.acoes i{
+    cursor: pointer;
+}
+
+button.navbar-toggler{
+    filter: invert(1);
+}
+
+img.img-perfil{
+    width: 100%;
+    max-width: 160px;
+    min-width: 80px;
+}
+
+.btn-primary{
+    background: #a69d8e;
+    border-color: transparent;
+    color: #373736;
+}
+
+.btn-primary:hover{
+    background: #6a655b;
+    transition: 0.4s;
+    border-color: #373736;
+}
+
+.btn-outline-primary{
+    border-color: #a69d8e;
+    color: #a69d8e;
+}
+
+.btn-outline-primary:hover{
+    background: #a69d8e;
+    transition: 0.4s;
+    color: black;
+    border-color: #373736;
+}
+
+.card{
+    min-width: 400px;
+    max-width: 460px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: #1f2021;
+    color: #dadada;
+}
+
+.stats{
+    background: #f2f5f8 !important;
+    color: #000 !important;
+}
+
+.stats a{
+    color: unset;
+    text-decoration: none;
+}
+
+.stat-label{
+    font-size:10px;
+    color: #3f4249;
+}
+
+.number1{
+    font-weight:500;
+}
+
+.number2{
+    font-weight:500;
+}
+
+.number3{
+    font-weight:500;
+}
+
+.bloco-post{
+    background: #212325;
+    color: white;
+}
+
+@media only screen and (max-width: 960px), (max-device-width: 960px){
+    .formularios{
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (prefers-color-scheme: light){
+    body{
+        background: #dadada;
+    }
+
+    h1, h3, hr, a, p.aviso-sem-usuarios{
+        color: #121212;
+    }
+
+    div.acoes a{
+        color: #6a6a6a;
+    }
+
+    nav.navbar{
+        background: #a69d8e;
+        color: black;
+    }
+
+    a.nav-link, a.navbar-brand{
+        color: black !important;
+    }
+
+    a.nav-link:hover, a.navbar-brand:hover{
+        color: #49433e !important;
+        transition: 0.4s;
+    }
+
+    form{
+        background: white;
+        color: #121212;
+    }
+
+    button.navbar-toggler{
+        filter: none;
+    }
+
+    .card{
+        background-color: white;
+        color: #121212;
+    }
+
+    .stats{
+        background: #a69d8e !important;
+        color: #000 !important;
+    }
+
+    .bloco-post{
+        background: #f2f5f8;
+        color: black;
+    }
+}

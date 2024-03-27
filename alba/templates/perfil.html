@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    {{ usuario.username }}
+{% endblock %}
+
+{% block body %}
+    {% include 'components/card_perfil.html' %}
+    {% block form_editar_perfil %}
+        <div class="container mb-5">
+            <hr>
+            {% for post in usuario.posts %}
+                {% include 'components/post.html' %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+{% endblock %}

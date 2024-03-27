@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid container">
+        <a class="navbar-brand" href="{{ url_for('homepage') }}">
+            <img src="{{ url_for('static', filename='images/alba-icon.svg') }}" width="30px" />
+            Alba
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="d-flex navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('criar_post') }}"><i class="fa-solid fa-feather"></i> Criar post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('usuarios') }}"><i class="fa-solid fa-users"></i> Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('perfil', username=current_user.username) }}"><i class="fa-solid fa-circle-user"></i> Meu perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('sair') }}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Entrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Criar conta</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

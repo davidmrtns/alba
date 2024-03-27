@@ -1,0 +1,68 @@
+<div class="container mt-3">
+    <div class="row border mt-4 p-3 bloco-post">
+        <div class="d-flex gap-2">
+            <div>
+                <div class="d-flex flex-column image pe-2">
+                    <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}" class="rounded img-perfil">
+                    <strong class="mt-1">{{ post.autor.nome }}</strong>
+                    <a class="link-primary" href="{{ url_for('perfil', username=post.autor.username) }}">
+                        <p>@{{ post.autor.username }}</p>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div class="d-flex gap-2 align-items-baseline">
+                    <a href="{{ url_for('exibir_post', post_id=post.id) }}" class="link-primary text-decoration-none">
+                        <h3>{{ post.titulo }}</h3>
+                    </a>
+                    {% if post.editado %}
+                        <p class="font-weight-light text-secondary mb-0">[Editado]</p>
+                    {% endif %}
+                    {% if current_user == post.autor %}
+                        <a class="link-primary" href="{{ url_for('editar_post', post_id=post.id) }}"><i class="fa-solid fa-pencil"></i></a>
+                        <a class="link-danger" href="#" data-bs-toggle="modal" data-bs-target="#excluirPost"><i class="fa-solid fa-trash"></i></a>
+                    {% endif %}
+                </div>
+                <p class="font-weight-light text-secondary">
+                    Criado em {{ post.data_criacao.strftime('%d/%m/%Y') }}
+                </p>
+                <p>{{ post.corpo }}</p>
+            </div>
+        </div>
+        <div class="acoes">
+            <div>
+                <a href="{{ url_for('comentar_post', post_id=post.id) }}"><i class="fa-solid fa-comment-dots"></i></i></a>
+                <p>{{ post.contar_comentarios() }}</p>
+            </div>
+            <div>
+                {% if post.curtiu_post(current_user.id) %}
+                    <a href="{{ url_for('descurtir_post', post_id=post.id) }}"><i class="fa-solid fa-heart"></i></a>
+                {% else %}
+                    <a href="{{ url_for('curtir_post', post_id=post.id) }}"><i class="fa-regular fa-heart"></i></a>
+                {% endif %}
+                <p>{{ post.curtidas.count() }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% if current_user == post.autor %}
+    <div class="modal fade" id="excluirPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Excluir post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Você quer mesmo excluir esse post? Esta ação não pode ser desfeita
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="POST" action="{{ url_for('excluir_post', post_id=post.id) }}">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
