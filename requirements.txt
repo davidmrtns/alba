@@ -1,0 +1,15 @@
+email_validator==2.2.0
+Flask==2.3.2
+Flask-Bcrypt==1.0.1
+Flask-Login==0.6.3
+Flask-Mail==0.9.1
+Flask-SocketIO==5.3.5
+Flask-SQLAlchemy==3.1.1
+Flask-WTF==1.2.1
+gunicorn==21.2.0
+Jinja2==3.1.2
+Pillow==10.4.0
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.28
+typing-extensions==4.12.2
+WTForms==3.1.2

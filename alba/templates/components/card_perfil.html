@@ -1,40 +1,42 @@
-<div class="container mt-5 mb-5 d-flex justify-content-center">
-    <div class="card p-3">
-        <div class="d-flex align-items-center gap-2">
-            <div class="image pe-2">
-                <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil)) }}" class="rounded" width="200" >
-            </div>
-            <div class="ml-3 w-100">
-                <a href="{{ url_for('perfil', username=usuario.username) }}" class="text-decoration-none">
-                    <h4 class="mb-0 mt-0">{{ usuario.nome }}</h4>
-                    <span>@{{ usuario.username }}</span>
-                </a>
-                <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
-                    <div class="d-flex flex-column">
-                         <span class="stat-label">Posts</span>
-                         <span class="number1">{{ usuario.contar_posts() }}</span>
-                    </div>
-                    <a href="{{ url_for('seguidores_perfil', username=usuario.username) }}">
-                        <div class="d-flex flex-column">
-                            <span class="stat-label">Seguidores</span>
-                            <span class="number2">{{ usuario.seguidores.count() }}</span>
-                        </div>
-                    </a>
-                    <div class="d-flex flex-column">
-                         <span class="stat-label">Curtidas</span>
-                         <span class="number3">{{ usuario.contar_curtidas() }}</span>
-                    </div>
+<div class="mt-5 mb-5">
+    <div class="container d-flex justify-content-center">
+        <div class="card p-3">
+            <div class="d-flex align-items-center gap-2">
+                <div class="image pe-2">
+                    <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil)) }}" class="rounded img-pag-perfil">
                 </div>
-                <div class="button mt-2 d-flex flex-row align-items-center">
-                    {% if usuario.username == current_user.username %}
-                        <a class="w-100" href="{{ url_for('editar_perfil', username=current_user.username) }}"><button class="btn btn-sm btn-outline-primary w-100">Editar</button></a>
-                    {% else %}
-                        {% if usuario.segue_usuario(current_user.id) %}
-                            <a class="w-100" href="{{ url_for('parar_seguir', username=usuario.username) }}"><button class="btn btn-sm btn-outline-primary w-100">Deixar de seguir</button></a>
+                <div class="ml-3 w-100">
+                    <a href="{{ url_for('perfil', username=usuario.username) }}" class="text-decoration-none">
+                        <h4 class="mb-0 mt-0">{{ usuario.nome }}</h4>
+                        <span>@{{ usuario.username }}</span>
+                    </a>
+                    <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                        <div class="d-flex flex-column">
+                             <span class="stat-label">Posts</span>
+                             <span class="number1">{{ usuario.contar_posts() }}</span>
+                        </div>
+                        <a href="{{ url_for('seguidores_perfil', username=usuario.username) }}">
+                            <div class="d-flex flex-column">
+                                <span class="stat-label">Seguidores</span>
+                                <span class="number2">{{ usuario.seguidores.count() }}</span>
+                            </div>
+                        </a>
+                        <div class="d-flex flex-column">
+                             <span class="stat-label">Curtidas</span>
+                             <span class="number3">{{ usuario.contar_curtidas() }}</span>
+                        </div>
+                    </div>
+                    <div class="button mt-2 d-flex flex-row align-items-center">
+                        {% if usuario.username == current_user.username %}
+                            <a class="w-100" href="{{ url_for('editar_perfil', username=current_user.username) }}"><button class="btn btn-sm btn-outline-primary w-100">Editar</button></a>
                         {% else %}
-                            <a class="w-100" href="{{ url_for('seguir', username=usuario.username) }}"><button class="btn btn-sm btn-primary w-100">Seguir</button></a>
+                            {% if usuario.segue_usuario(current_user.id) %}
+                                <a class="w-100" href="{{ url_for('parar_seguir', username=usuario.username) }}"><button class="btn btn-sm btn-outline-primary w-100">Deixar de seguir</button></a>
+                            {% else %}
+                                <a class="w-100" href="{{ url_for('seguir', username=usuario.username) }}"><button class="btn btn-sm btn-primary w-100">Seguir</button></a>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
