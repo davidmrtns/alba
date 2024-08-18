@@ -1,0 +1,14 @@
+{
+  "short_name": "Alba",
+  "name": "Alba",
+  "icons": [
+    {
+      "src": "images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#a69d8e"
+}
