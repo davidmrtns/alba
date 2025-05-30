@@ -10,6 +10,7 @@ gunicorn==21.2.0
 Jinja2==3.1.2
 Pillow==10.4.0
 psycopg2-binary==2.9.9
+python-dotenv==1.1.0
 SQLAlchemy==2.0.28
 typing-extensions==4.12.2
 WTForms==3.1.2
