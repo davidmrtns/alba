@@ -5,7 +5,7 @@ from alba.models import Usuario, Seguidor, Post, Curtida, Comentario
 from flask_login import login_user, logout_user, current_user, login_required
 import secrets
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 ENABLE_TEST_USERS = os.getenv("ENABLE_TEST_USERS", "False").lower() in ("true", "1", "t")
@@ -91,10 +91,10 @@ def editar_perfil(username):
                 nome_arquivo = codigo + extensao
                 caminho = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
                 if extensao != '.svg':
-                    tamanho = (400, 400)
-                    imagem_reduzida = Image.open(imagem)
-                    imagem_reduzida.thumbnail(tamanho)
-                    imagem_reduzida.save(caminho)
+                    imagem_original = Image.open(imagem)
+                    imagem_original = imagem_original.convert('RGB')
+                    imagem_redimensionada = ImageOps.fit(imagem_original, (400, 400), method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
+                    imagem_redimensionada.save(caminho, optimize=True, quality=85)
                 else:
                     imagem.save(caminho)
                 current_user.foto_perfil = nome_arquivo
