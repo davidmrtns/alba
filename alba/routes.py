@@ -8,6 +8,9 @@ import os
 from PIL import Image
 
 
+ENABLE_TEST_USERS = os.getenv("ENABLE_TEST_USERS", "False").lower() in ("true", "1", "t")
+
+
 @app.route('/')
 @login_required
 def homepage():
@@ -40,6 +43,9 @@ def login():
         else:
             flash('Falha no login. E-mail ou senha incorretos', 'alert-danger')
     if form_criar_conta.validate_on_submit() and 'botao_submit_criar_conta' in request.form:
+        if ENABLE_TEST_USERS:
+            flash(f'A criação de contas está atualmente desativada', 'alert-danger')
+            return redirect(url_for('homepage'))
         senha_cript = bcrypt.generate_password_hash(form_criar_conta.senha.data).decode('utf8')
         usuario = Usuario(nome=form_criar_conta.nome.data, username=form_criar_conta.username.data,
                           email=form_criar_conta.email.data, senha=senha_cript)
@@ -70,7 +76,11 @@ def perfil(username):
 def editar_perfil(username):
     if username == current_user.username:
         form_editar_perfil = FormEditarPerfil()
-        if form_editar_perfil.validate_on_submit():
+        # Não permite que usuários de teste editem seus perfis
+        if current_user.tipo_usuario.name == 'TESTE':
+            flash('Usuários de teste não podem editar seus perfis', 'alert-danger')
+            return redirect(url_for('perfil', username=current_user.username))
+        elif form_editar_perfil.validate_on_submit():
             current_user.nome = form_editar_perfil.nome.data
             current_user.email = form_editar_perfil.email.data
             current_user.username = form_editar_perfil.username.data
@@ -112,6 +122,11 @@ def seguidores_perfil(username):
 def criar_post():
     form_criar_post = FormCriarPost()
     if form_criar_post.validate_on_submit():
+        # Permite que usuários de teste criem apenas posts com conteúdo específico
+        if current_user.tipo_usuario.name == 'TESTE':
+            numero_post = current_user.contar_posts() + 1
+            form_criar_post.titulo.data = f"Post {numero_post}"
+            form_criar_post.corpo.data = f"Esse é meu {numero_post}º post!"
         post = Post(titulo=form_criar_post.titulo.data, corpo=form_criar_post.corpo.data, autor=current_user)
         database.session.add(post)
         database.session.commit()
@@ -137,8 +152,13 @@ def editar_post(post_id):
             form_editar_post.titulo.data = post.titulo
             form_editar_post.corpo.data = post.corpo
         elif form_editar_post.validate_on_submit():
-            post.titulo = form_editar_post.titulo.data
-            post.corpo = form_editar_post.corpo.data
+            # Permite que usuários de teste editem posts com conteúdo específico
+            if current_user.tipo_usuario.name == 'TESTE':
+                post.titulo = f"{post.titulo} (Editado por {current_user.username})"
+                post.corpo = f"{post.corpo} (Editado por {current_user.username})"
+            else:
+                post.titulo = form_editar_post.titulo.data
+                post.corpo = form_editar_post.corpo.data
             post.editado = True
             database.session.commit()
             flash('Post atualizado com sucesso', 'alert-success')
@@ -158,6 +178,9 @@ def comentar_post(post_id):
     if curtida:
         curtido = True
     if form_comentar_post.validate_on_submit():
+        # Permite que usuários de teste comentem posts com conteúdo específico
+        if current_user.tipo_usuario.name == 'TESTE':
+            form_comentar_post.corpo.data = f"Comentário de teste no post {post_id} por {current_user.username}"
         comentario = Comentario(id_usuario=current_user.id, id_post=post_id, corpo=form_comentar_post.corpo.data)
         database.session.add(comentario)
         database.session.commit()
@@ -211,7 +234,11 @@ def editar_comentario(comentario_id):
         if request.method == 'GET':
             form_editar_comentario.corpo.data = comentario.corpo
         elif form_editar_comentario.validate_on_submit():
-            comentario.corpo = form_editar_comentario.corpo.data
+            # Permite que usuários de teste editem comentários com conteúdo específico
+            if current_user.tipo_usuario.name == 'TESTE':
+                comentario.corpo = f"{comentario.corpo} (Editado por {current_user.username})"
+            else:
+                comentario.corpo = form_editar_comentario.corpo.data
             comentario.editado = True
             database.session.commit()
             flash('Comentário atualizado com sucesso', 'alert-success')

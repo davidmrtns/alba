@@ -1,7 +1,13 @@
-from sqlalchemy import UniqueConstraint, desc
+from sqlalchemy import UniqueConstraint, desc, Enum
 from alba import database, login_manager
 from datetime import datetime
 from flask_login import UserMixin
+import enum
+
+
+class TipoUsuario(enum.Enum):
+    COMUM = 'COMUM'
+    TESTE = 'TESTE'
 
 
 @login_manager.user_loader
@@ -16,6 +22,7 @@ class Usuario(database.Model, UserMixin):
     email = database.Column(database.String, nullable=False, unique=True)
     senha = database.Column(database.String, nullable=False)
     foto_perfil = database.Column(database.String, default='default.svg')
+    tipo_usuario = database.Column(Enum(TipoUsuario), nullable=False, default=TipoUsuario.COMUM)
     posts = database.Relationship('Post', backref='autor', lazy=True)
     comentarios = database.Relationship('Comentario', backref='autor', lazy=True)
     seguidores = database.relationship('Seguidor', foreign_keys='Seguidor.id_seguido', backref='seguidores', lazy='dynamic')
