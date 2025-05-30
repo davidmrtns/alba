@@ -14,7 +14,7 @@ O projeto está finalizado.
 - Banco de dados desenvolvido com SQLAlchemy.
 
 ## Produção
-A aplicação está disponível online [neste link](https://alba-hihh.onrender.com).
+A aplicação está disponível online [neste link](https://alba-adebdjb3becrg8b8.canadacentral-01.azurewebsites.net/).
 
 ## Autores
 David Martins - Backend, Frontend e Banco de Dados
